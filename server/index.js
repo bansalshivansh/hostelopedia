@@ -1,3 +1,4 @@
+require("dotenv").config();
 const {execSync} = require("node:child_process");
 const express = require("express");
 const cors = require("cors");
@@ -51,7 +52,10 @@ app.post("/search", async (req, res) => {
     }
 })
 
-app.listen(8080, () => {
-    console.log("Started server on Port 8080")
+const PORT = process.env.PORT || 8080;
+const NODE_ENV = process.env.NODE_ENV || "development";
+
+app.listen(PORT, () => {
+    console.log(`Started server on Port ${PORT} (${NODE_ENV})`)
 })
 
