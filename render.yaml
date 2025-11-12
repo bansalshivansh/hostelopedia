@@ -1,0 +1,18 @@
+services:
+  - type: web
+    name: hostelopedia-api
+    env: node
+    plan: free
+    buildCommand: cd server && npm install
+    startCommand: cd server && node index.js
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 10000
+
+  - type: web
+    name: hostelopedia-frontend
+    env: static
+    staticPublicPath: dist
+    buildCommand: npm install && npm run build

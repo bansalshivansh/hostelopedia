@@ -40,7 +40,9 @@ const LandingPage = () => {
     }
 
     try {
-      const backendUrl = new URL("http://localhost:8080/search");
+      // Use environment variable for backend URL, fallback to localhost
+      const apiBase = import.meta.env.VITE_API_URL || "http://localhost:8080";
+      const backendUrl = new URL(`${apiBase}/search`);
       
       // Only add hostel name if provided
       if (searchInput.trim()) {
