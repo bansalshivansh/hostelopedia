@@ -40,9 +40,10 @@ const LandingPage = () => {
     }
 
     try {
-      // Use environment variable for backend URL, fallback to localhost
-      const apiBase = import.meta.env.VITE_API_URL || "http://localhost:8080";
-      const backendUrl = new URL(`${apiBase}/search`);
+      // Use API proxy path in development, environment variable in production
+      const isDev = import.meta.env.DEV;
+      const apiBase = isDev ? "/api" : (import.meta.env.VITE_API_URL || "http://localhost:8080");
+      const backendUrl = new URL(`${apiBase}/search`, window.location.origin);
       
       // Only add hostel name if provided
       if (searchInput.trim()) {
@@ -254,12 +255,15 @@ const router = createBrowserRouter([
   {
     path: "/",
     element: <LandingPage />,
+    errorElement: <div className="flex items-center justify-center min-h-screen"><p className="text-2xl text-red-600">Page not found</p></div>,
   },
   {
     path: "/products",
     element: <Products />,
   },
-]);
+], {
+  basename: "/hostelopedia/"
+});
 
 export const App = () => {
   return <RouterProvider router={router} />;
